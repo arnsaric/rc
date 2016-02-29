@@ -66,9 +66,21 @@ set softtabstop=8                               " "tab" feels like <tab>
 set tabstop=8                                   " replace <TAB> w/4 spaces
 """ Only auto-comment newline for block comments
 au FileType c,cpp setlocal comments -=:// comments +=f://
-""" Highlight characters past 79
+""" Highlight characters past 79 (toggleable)
+let g:overlength_enabled = 1
 highlight OverLength ctermbg=darkred
 match OverLength /\%79v.*/
+function! ToggleOverLengthHighlight()
+        if g:overlength_enabled == 0
+                match OverLength /\%79v.*/
+                let g:overlength_enabled = 1
+                echo 'OverLength highlighting turned on'
+        else
+                match
+                let g:overlength_enabled = 0
+                echo 'OverLength highlighting turned off'
+        endif
+endfunction
 
 """ Folding
 set foldcolumn=0                            " hide folding column
@@ -115,6 +127,8 @@ nnoremap <F1> <nop>
 vnoremap <F1> <nop>
 " Toggle pastemode, doesn't indent
 set pastetoggle=<F3>
+" Toggle highlighting of chars past 79
+nnoremap <C-h> :call ToggleOverLengthHighlight()<CR>
 
 "Bars
 
